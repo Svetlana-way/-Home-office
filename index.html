@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Office | Лига Резидентов</title>
-    <!-- Подключаем крутой спортивный шрифт -->
+    <title>Home Office | Club House</title>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- НАСТРОЙКИ ДИЗАЙНА (CSS) --- */
+        /* --- НАСТРОЙКИ (CSS) --- */
         :root {
             --bg-dark: #1a1a1a;
-            --card-bg: linear-gradient(135deg, #2c3e50, #000000);
-            --gold: #f1c40f;   /* Цвет золота */
-            --neon: #00ff88;   /* Цвет неона (цифры) */
+            --card-bg: linear-gradient(135deg, #2b2b2b, #000000);
+            --gold: #FFD700;   /* Желтый цвет из вашего логотипа */
+            --neon: #fff;      /* Белый для контраста */
             --text: #ecf0f1;
         }
 
@@ -21,38 +20,39 @@
             margin: 0;
             font-family: 'Teko', sans-serif;
             background-color: #121212;
-            /* Текстура футбольного поля в стиле Sci-Fi */
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.9), #000),
-                linear-gradient(0deg, rgba(0,255,136,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+                radial-gradient(circle at 50% 50%, rgba(30, 30, 30, 0.9), #000),
+                linear-gradient(0deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
             color: var(--text);
             min-height: 100vh;
         }
 
-        /* Шапка-табло */
+        /* Шапка с Логотипом */
         .scoreboard {
             display: flex;
             justify-content: space-between;
-            padding: 15px 5%;
-            background: rgba(0,0,0,0.85);
+            padding: 10px 5%;
+            background: rgba(0,0,0,0.9);
             border-bottom: 2px solid var(--gold);
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(5px);
         }
 
-        .logo { font-size: 2.2rem; font-weight: 700; letter-spacing: 2px; color: #fff; }
-        .badge { background: var(--gold); color: #000; padding: 2px 8px; font-size: 1.2rem; border-radius: 4px; margin-left: 10px; }
+        /* Логотип картинкой */
+        .logo-img {
+            height: 50px; /* Высота логотипа */
+            width: auto;
+            display: block;
+        }
 
         .hero-text { text-align: center; margin: 40px 0; padding: 0 20px; }
-        .hero-text h1 { font-size: 4rem; margin: 0; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
-        .hero-text p { font-size: 1.5rem; color: #888; margin-top: 5px; }
+        .hero-text h1 { font-size: 3.5rem; margin: 0; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; }
+        .hero-text p { font-size: 1.5rem; color: #888; }
 
-        /* Сетка карточек */
         .squad-grid {
             display: flex;
             flex-wrap: wrap;
@@ -63,76 +63,64 @@
             margin: 0 auto 60px auto;
         }
 
-        /* --- КАРТОЧКА ИГРОКА (FIFA Style) --- */
+        /* --- КАРТОЧКА (ОБЩАЯ) --- */
         .fut-card {
             width: 280px;
-            height: 420px;
+            height: 440px;
             background: var(--card-bg);
             border: 2px solid var(--gold);
-            border-radius: 15px 15px 25px 25px; /* Форма щита */
+            border-radius: 15px 15px 25px 25px;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s;
             overflow: hidden;
             cursor: pointer;
-            user-select: none;
         }
+        .fut-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255, 215, 0, 0.15); }
 
-        .fut-card:hover { 
-            transform: translateY(-15px) scale(1.02); 
-            box-shadow: 0 20px 50px rgba(241, 196, 15, 0.2); 
-            z-index: 10;
+        /* СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ ЛОКАЦИИ (Переговорная) */
+        .fut-card.location-card {
+            border-color: #fff; /* Белая окантовка для локаций */
         }
+        .fut-card.location-card .rating-num { color: #fff; }
+        .fut-card.location-card .name { color: #fff; }
 
-        /* Верхняя часть с фото */
+        /* Верх карточки */
         .card-top {
             height: 60%;
             position: relative;
-            background: radial-gradient(circle at bottom, rgba(241,196,15,0.15), transparent 70%);
-            border-bottom: 1px solid rgba(241,196,15,0.3);
+            border-bottom: 1px solid rgba(255,215,0,0.3);
         }
-
         .rating-box {
             position: absolute;
-            top: 15px;
+            top: 10px;
             left: 15px;
             text-align: center;
             z-index: 2;
+            text-shadow: 2px 2px 4px #000;
         }
-
-        .rating-num {
-            font-size: 2.8rem;
-            font-weight: bold;
-            color: var(--gold);
-            line-height: 0.9;
-            display: block;
-        }
-
-        .position-name {
-            font-size: 1.2rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .rating-num { font-size: 3rem; font-weight: bold; color: var(--gold); line-height: 0.9; display: block; }
+        .position-name { font-size: 1.2rem; color: #fff; text-transform: uppercase; }
 
         .player-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top;
-            /* Маска, чтобы фото плавно исчезало вниз */
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            /* Для людей: маска снизу */
+            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+        }
+        
+        /* Для локаций фото без маски или с другой маской */
+        .location-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* Нижняя часть с данными */
-        .card-bottom {
-            padding: 15px;
-            text-align: center;
-        }
-
+        .card-bottom { padding: 15px; text-align: center; }
         .name {
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-transform: uppercase;
             color: var(--gold);
             margin-bottom: 10px;
@@ -141,78 +129,75 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5px 20px;
-            font-size: 1.3rem;
-            color: #ddd;
-            padding: 0 10px;
+            gap: 5px 10px;
+            font-size: 1.2rem;
+            color: #ccc;
         }
+        .stat-val { font-weight: bold; color: var(--neon); margin-right: 5px;}
 
-        .stat-row { display: flex; justify-content: space-between; }
-        .stat-val { font-weight: bold; color: var(--neon); }
-        .stat-label { font-weight: 300; opacity: 0.8; }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid #333;
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        /* Адаптивность для телефонов */
-        @media (max-width: 600px) {
-            .hero-text h1 { font-size: 2.5rem; }
-            .fut-card { width: 100%; max-width: 300px; }
-        }
+        footer { text-align: center; padding: 30px; color: #555; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-    <!-- Шапка -->
+    <!-- ШАПКА -->
     <header class="scoreboard">
-        <div class="logo">HOME OFFICE <span class="badge">FUT</span></div>
-        <div style="color: var(--gold); font-size: 1.5rem;">24/7 OPEN</div>
+        <!-- ВАШ ЛОГОТИП -->
+        <img src="logo.jpg" alt="Home Office" class="logo-img">
+        
+        <div style="color: var(--gold); font-size: 1.4rem;">EST. 2024</div>
     </header>
 
-    <!-- Заголовок -->
     <div class="hero-text">
-        <h1>Основной состав</h1>
-        <p>Команда мечты в Набережных Челнах</p>
+        <h1>Клубная Зона</h1>
+        <p>Резиденты и Локации</p>
     </div>
 
-    <!-- Поле с игроками -->
     <div class="squad-grid" id="squad-container">
-        <!-- Сюда JavaScript вставит карточки -->
+        <!-- JavaScript заполнит это карточками -->
     </div>
 
-    <footer>
-        <p>Created by PRODUMAТЬ © 2025</p>
-    </footer>
+    <footer>Created by PRODUMAТЬ</footer>
 
     <script>
-        /* --- ВАШИ ДАННЫЕ (Редактируйте здесь) --- */
-        
-        const residents = [
+        /* --- БАЗА ДАННЫХ --- */
+        const cards = [
+            // 1. КАРТОЧКА ПЕРЕГОВОРНОЙ (Новая!)
             {
-                name: "АННА",         // Имя
-                role: "LAWYER",       // Роль (коротко)
-                rating: 99,           // Рейтинг (число)
-                // Ссылка на фото (замените на свои файлы)
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80", 
+                type: "location", // Тип: Локация
+                name: "TACTIC ROOM",
+                role: "MEETING",
+                rating: 10,       // Вместимость или крутость
+                image: "room.jpg", // Ваше фото переговорной
                 stats: [
-                    { val: 99, label: "LAW" },   // Характеристика 1
-                    { val: 95, label: "DEAL" },  // Характеристика 2
-                    { val: 90, label: "EXP" },   // Характеристика 3
-                    { val: 100, label: "IQ" }    // Характеристика 4
+                    { val: "100", label: "PRIVACY" }, // Приватность
+                    { val: "4K",  label: "TV" },      // Телевизор/Экран
+                    { val: "3",   label: "SEATS" },   // Места
+                    { val: "99",  label: "WIFI" }     // Интернет
                 ]
             },
+            // 2. Резидент Анна
             {
+                type: "player",
+                name: "АННА",
+                role: "LAWYER",
+                rating: 99,
+                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+                stats: [
+                    { val: 99, label: "LAW" },
+                    { val: 95, label: "DEAL" },
+                    { val: 90, label: "EXP" },
+                    { val: 100, label: "IQ" }
+                ]
+            },
+            // 3. Резидент Алексей
+            {
+                type: "player",
                 name: "АЛЕКСЕЙ",
-                role: "PROD.MGR",
+                role: "MANAGER",
                 rating: 94,
                 image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
                 stats: [
@@ -221,40 +206,16 @@
                     { val: 92, label: "IDEA" },
                     { val: 99, label: "TEAM" }
                 ]
-            },
-            {
-                name: "МАРИЯ",
-                role: "DESIGN",
-                rating: 91,
-                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&q=80",
-                stats: [
-                    { val: 96, label: "ART" },
-                    { val: 90, label: "UX" },
-                    { val: 85, label: "WEB" },
-                    { val: 93, label: "STYLE" }
-                ]
-            },
-            {
-                name: "ТЫ?",
-                role: "ROOKIE",
-                rating: "?",
-                image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80",
-                stats: [
-                    { val: "??", label: "SKILL" },
-                    { val: "??", label: "POWER" },
-                    { val: "??", label: "SPEED" },
-                    { val: "??", label: "LUCK" }
-                ]
             }
         ];
 
-        /* --- ЛОГИКА (Не трогайте код ниже) --- */
+        /* --- ГЕНЕРАТОР КАРТОЧЕК --- */
         const container = document.getElementById('squad-container');
 
-        residents.forEach(player => {
-            // Собираем характеристики
+        cards.forEach(item => {
+            // Собираем статы
             let statsHtml = '';
-            player.stats.forEach(stat => {
+            item.stats.forEach(stat => {
                 statsHtml += `
                     <div class="stat-row">
                         <span class="stat-val">${stat.val}</span>
@@ -263,27 +224,29 @@
                 `;
             });
 
-            // Создаем карточку
+            // Определяем стиль (Игрок или Локация)
+            const isLocation = item.type === 'location';
+            const cardClass = isLocation ? 'fut-card location-card' : 'fut-card';
+            const imgClass = isLocation ? 'location-img' : 'player-img';
+
             const card = document.createElement('div');
-            card.className = 'fut-card';
+            card.className = cardClass;
             
-            // Наполняем карточку
             card.innerHTML = `
                 <div class="card-top">
                     <div class="rating-box">
-                        <span class="rating-num">${player.rating}</span>
-                        <span class="position-name">${player.role}</span>
+                        <span class="rating-num">${item.rating}</span>
+                        <span class="position-name">${item.role}</span>
                     </div>
-                    <img src="${player.image}" class="player-img" alt="${player.name}">
+                    <img src="${item.image}" class="${imgClass}" alt="${item.name}">
                 </div>
                 <div class="card-bottom">
-                    <div class="name">${player.name}</div>
+                    <div class="name">${item.name}</div>
                     <div class="stats-grid">
                         ${statsHtml}
                     </div>
                 </div>
             `;
-            
             container.appendChild(card);
         });
     </script>
