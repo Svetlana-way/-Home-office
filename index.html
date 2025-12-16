@@ -3,251 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Office | Club House</title>
+    <title>Home Office | Лига Профессионалов</title>
+    <!-- Спортивный шрифт, похожий на те, что в играх -->
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- НАСТРОЙКИ (CSS) --- */
+        /* === НАСТРОЙКИ ДИЗАЙНА (GAME STYLE) === */
         :root {
-            --bg-dark: #1a1a1a;
-            --card-bg: linear-gradient(135deg, #2b2b2b, #000000);
-            --gold: #FFD700;   /* Желтый цвет из вашего логотипа */
-            --neon: #fff;      /* Белый для контраста */
-            --text: #ecf0f1;
+            --bg-color: #121212;
+            --gold: #FFD700;       /* Ваше золото из логотипа */
+            --dark-card: #1a1a1a;  /* Фон карточки */
+            --text-main: #ffffff;
+            --stat-color: #00ff88; /* Зеленый неон для цифр навыков */
         }
 
         body {
             margin: 0;
+            background-color: var(--bg-color);
             font-family: 'Teko', sans-serif;
-            background-color: #121212;
+            color: var(--text-main);
+            /* Текстура "поля" */
             background-image: 
-                radial-gradient(circle at 50% 50%, rgba(30, 30, 30, 0.9), #000),
-                linear-gradient(0deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-            color: var(--text);
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             min-height: 100vh;
         }
 
-        /* Шапка с Логотипом */
-        .scoreboard {
+        /* === ВЕРХНЕЕ ТАБЛО (HEADER) === */
+        header {
             display: flex;
             justify-content: space-between;
-            padding: 10px 5%;
-            background: rgba(0,0,0,0.9);
-            border-bottom: 2px solid var(--gold);
             align-items: center;
+            padding: 15px 5%;
+            background: rgba(0,0,0,0.9);
+            border-bottom: 3px solid var(--gold);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
-        /* Логотип картинкой */
-        .logo-img {
-            height: 50px; /* Высота логотипа */
-            width: auto;
-            display: block;
+        .logo-container img { height: 50px; width: auto; }
+        
+        .season-info {
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .hero-text { text-align: center; margin: 40px 0; padding: 0 20px; }
-        .hero-text h1 { font-size: 3.5rem; margin: 0; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; }
-        .hero-text p { font-size: 1.5rem; color: #888; }
+        /* === ГЛАВНЫЙ БАННЕР (PITCH) === */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.1), transparent 70%);
+        }
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+            text-transform: uppercase;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        .hero p { font-size: 1.5rem; color: #888; letter-spacing: 1px; }
 
-        .squad-grid {
+        /* === СЕТКА КАРТОЧЕК (SQUAD) === */
+        .field-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 40px;
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto 60px auto;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        /* --- КАРТОЧКА (ОБЩАЯ) --- */
-        .fut-card {
-            width: 280px;
-            height: 440px;
-            background: var(--card-bg);
-            border: 2px solid var(--gold);
-            border-radius: 15px 15px 25px 25px;
+        /* === ДИЗАЙН КАРТОЧКИ (The "Ronaldo" Card Style) === */
+        .player-card {
+            width: 300px;
+            height: 480px;
+            background: linear-gradient(145deg, #2b2b2b, #000000);
+            border: 2px solid #333;
+            border-radius: 20px;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .fut-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(255, 215, 0, 0.15); }
 
-        /* СПЕЦИАЛЬНЫЙ СТИЛЬ ДЛЯ ЛОКАЦИИ (Переговорная) */
-        .fut-card.location-card {
-            border-color: #fff; /* Белая окантовка для локаций */
+        /* Эффект свечения при наведении */
+        .player-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
-        .fut-card.location-card .rating-num { color: #fff; }
-        .fut-card.location-card .name { color: #fff; }
 
-        /* Верх карточки */
+        /* Золотая карточка (для топов) */
+        .card-gold { border: 2px solid var(--gold); }
+        .card-gold::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 150px;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.1), transparent);
+            z-index: 1;
+        }
+
+        /* Верхняя часть (Фото и Рейтинг) */
         .card-top {
             height: 60%;
             position: relative;
-            border-bottom: 1px solid rgba(255,215,0,0.3);
-        }
-        .rating-box {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            text-align: center;
             z-index: 2;
-            text-shadow: 2px 2px 4px #000;
         }
-        .rating-num { font-size: 3rem; font-weight: bold; color: var(--gold); line-height: 0.9; display: block; }
-        .position-name { font-size: 1.2rem; color: #fff; text-transform: uppercase; }
 
-        .player-img {
+        .rating-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+            z-index: 10;
+        }
+        .rating-num {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 0.9;
+        }
+        .rating-pos {
+            font-size: 1.2rem;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Для людей: маска снизу */
-            mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-        }
-        
-        /* Для локаций фото без маски или с другой маской */
-        .location-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            /* Эффект: фото растворяется снизу */
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
         }
 
-        .card-bottom { padding: 15px; text-align: center; }
-        .name {
-            font-size: 1.8rem;
+        /* Нижняя часть (Имя и Статы) */
+        .card-bottom {
+            height: 40%;
+            padding: 10px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .player-name {
+            font-size: 2.2rem;
             text-transform: uppercase;
             color: var(--gold);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin: 0;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
-        .stats-grid {
+
+        .stats-table {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5px 10px;
-            font-size: 1.2rem;
-            color: #ccc;
+            gap: 5px 20px;
+            text-align: left;
         }
-        .stat-val { font-weight: bold; color: var(--neon); margin-right: 5px;}
 
-        footer { text-align: center; padding: 30px; color: #555; font-size: 1rem; }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+        }
+
+        .stat-val { font-weight: bold; color: var(--stat-color); }
+        .stat-name { color: #aaa; font-weight: 300; }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
 
     <!-- ШАПКА -->
-    <header class="scoreboard">
-        <!-- ВАШ ЛОГОТИП -->
-        <img src="logo.jpg" alt="Home Office" class="logo-img">
-        
-        <div style="color: var(--gold); font-size: 1.4rem;">EST. 2024</div>
+    <header>
+        <div class="logo-container">
+            <!-- Сюда подгрузится ваш logo.jpg -->
+            <img src="logo.jpg" alt="Home Office Logo">
+        </div>
+        <div class="season-info">SEASON 2025 • PRO LEAGUE</div>
     </header>
 
-    <div class="hero-text">
-        <h1>Клубная Зона</h1>
-        <p>Резиденты и Локации</p>
+    <!-- ГЕРОЙ-БЛОК -->
+    <div class="hero">
+        <h1>Поле для твоей игры</h1>
+        <p>Выбери своего игрока или локацию для победы</p>
     </div>
 
-    <div class="squad-grid" id="squad-container">
-        <!-- JavaScript заполнит это карточками -->
+    <!-- ПОЛЕ С КАРТОЧКАМИ -->
+    <div class="field-grid" id="game-field">
+        <!-- Сюда скрипт добавит карточки -->
     </div>
 
-    <footer>Created by PRODUMAТЬ</footer>
+    <footer>
+        POWERED BY PRODUMAТЬ GAME ENGINE
+    </footer>
 
     <script>
-        /* --- БАЗА ДАННЫХ --- */
+        // === БАЗА ДАННЫХ ВАШЕЙ "ИГРЫ" ===
+        // Здесь мы превращаем реальную жизнь в игровые статы
+        
         const cards = [
-            // 1. КАРТОЧКА ПЕРЕГОВОРНОЙ (Новая!)
+            // 1. КАРТОЧКА ЛОКАЦИИ (Ваша переговорная)
             {
-                type: "location", // Тип: Локация
                 name: "TACTIC ROOM",
-                role: "MEETING",
-                rating: 10,       // Вместимость или крутость
-                image: "room.jpg", // Ваше фото переговорной
+                position: "ZONE",
+                rating: 10,       // Рейтинг локации
+                image: "room.jpg", // Ссылка на ваш файл
+                isGold: true,      // Золотая рамка
                 stats: [
                     { val: "100", label: "PRIVACY" }, // Приватность
-                    { val: "4K",  label: "TV" },      // Телевизор/Экран
-                    { val: "3",   label: "SEATS" },   // Места
-                    { val: "99",  label: "WIFI" }     // Интернет
+                    { val: "4K",  label: "VISION" },  // Экраны
+                    { val: "99",  label: "WIFI" },    // Интернет
+                    { val: "MAX", label: "COMFORT" }  // Удобство
                 ]
             },
-            // 2. Резидент Анна
+            // 2. РЕЗИДЕНТ (Вы - Юрист)
             {
-                type: "player",
                 name: "АННА",
-                role: "LAWYER",
+                position: "CAPTAIN",
                 rating: 99,
                 image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+                isGold: true,
                 stats: [
-                    { val: 99, label: "LAW" },
-                    { val: 95, label: "DEAL" },
-                    { val: 90, label: "EXP" },
-                    { val: 100, label: "IQ" }
+                    { val: 99, label: "LAW" },   // Знание права
+                    { val: 95, label: "POWER" }, // Сила убеждения
+                    { val: 98, label: "IQ" },    // Интеллект
+                    { val: 90, label: "SPEED" }  // Скорость работы
                 ]
             },
-            // 3. Резидент Алексей
+            // 3. РЕЗИДЕНТ (Алексей)
             {
-                type: "player",
                 name: "АЛЕКСЕЙ",
-                role: "MANAGER",
+                position: "STRIKER", // Нападающий (в бизнесе)
                 rating: 94,
                 image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80",
+                isGold: false,
                 stats: [
-                    { val: 95, label: "MGM" },
-                    { val: 88, label: "AGILE" },
-                    { val: 92, label: "IDEA" },
-                    { val: 99, label: "TEAM" }
+                    { val: 94, label: "SALES" }, // Продажи
+                    { val: 88, label: "AGILE" }, // Гибкость
+                    { val: 92, label: "TEAM" },  // Командность
+                    { val: 85, label: "TECH" }   // Техника
+                ]
+            },
+            // 4. КАРТОЧКА "ТЫ" (Призыв вступить)
+            {
+                name: "НОВЫЙ ИГРОК",
+                position: "ROOKIE",
+                rating: "?",
+                image: "https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=600&q=80",
+                isGold: false,
+                stats: [
+                    { val: "??", label: "SKILL" },
+                    { val: "??", label: "IDEA" },
+                    { val: "??", label: "DRIVE" },
+                    { val: "??", label: "GOAL" }
                 ]
             }
         ];
 
-        /* --- ГЕНЕРАТОР КАРТОЧЕК --- */
-        const container = document.getElementById('squad-container');
+        // Функция, которая "рисует" карточки на поле
+        const field = document.getElementById('game-field');
 
-        cards.forEach(item => {
-            // Собираем статы
-            let statsHtml = '';
-            item.stats.forEach(stat => {
-                statsHtml += `
+        cards.forEach(card => {
+            // Формируем HTML для статистики
+            let statsHTML = '';
+            card.stats.forEach(stat => {
+                statsHTML += `
                     <div class="stat-row">
                         <span class="stat-val">${stat.val}</span>
-                        <span class="stat-label">${stat.label}</span>
+                        <span class="stat-name">${stat.label}</span>
                     </div>
                 `;
             });
 
-            // Определяем стиль (Игрок или Локация)
-            const isLocation = item.type === 'location';
-            const cardClass = isLocation ? 'fut-card location-card' : 'fut-card';
-            const imgClass = isLocation ? 'location-img' : 'player-img';
+            // Определяем класс (золотая или обычная)
+            const cardClass = card.isGold ? 'player-card card-gold' : 'player-card';
 
-            const card = document.createElement('div');
-            card.className = cardClass;
-            
-            card.innerHTML = `
+            // Создаем элемент
+            const cardEl = document.createElement('div');
+            cardEl.className = cardClass;
+            cardEl.innerHTML = `
                 <div class="card-top">
-                    <div class="rating-box">
-                        <span class="rating-num">${item.rating}</span>
-                        <span class="position-name">${item.role}</span>
+                    <div class="rating-badge">
+                        <span class="rating-num">${card.rating}</span>
+                        <span class="rating-pos">${card.position}</span>
                     </div>
-                    <img src="${item.image}" class="${imgClass}" alt="${item.name}">
+                    <img src="${card.image}" alt="${card.name}" class="card-image">
                 </div>
                 <div class="card-bottom">
-                    <div class="name">${item.name}</div>
-                    <div class="stats-grid">
-                        ${statsHtml}
+                    <h2 class="player-name">${card.name}</h2>
+                    <div class="stats-table">
+                        ${statsHTML}
                     </div>
                 </div>
             `;
-            container.appendChild(card);
+
+            field.appendChild(cardEl);
         });
     </script>
 </body>
